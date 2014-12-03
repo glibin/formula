@@ -1,0 +1,9 @@
+<div class="formula-container">
+	<div class="formula-container__header">{{ formula.header }}</div>
+	<formula-part part="formula.text"></formula-part>
+	<ul class="formula-hints">
+		<li class="formula-hints__item" ng-repeat="hint in formula.hints">
+			<formula-hint></formula-hint>
+		</li>
+	</ul>
+</div>
