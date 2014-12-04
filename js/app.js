@@ -138,7 +138,6 @@
 		};
 
 		this.value = function(item) {
-			//console.log(item);
 			if (item.left) {
 				this.value(item.left);
 			}
@@ -216,10 +215,7 @@
 		$scope.clean_data = '';
 		$scope.formulaRecompile = false;
 		$scope.calculate = function() {
-			$scope.formula = new Formula({
-				"header": "Расчитано так:",
-				"formula": JSON.parse($scope.clean_data)
-			});
+			$scope.formula = new Formula(JSON.parse($scope.clean_data));
 			$scope.formulaRecompile = true;
 		};
 
