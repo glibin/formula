@@ -1,4 +1,5 @@
 (function() {
+	var D2 = {"value":"+","left":{"value":"(","right":{"value":"*","left":{"value":"/","left":{"value":"10800"},"right":{"value":"731"}},"right":{"value":"15"}}},"right":{"value":"(","right":{"value":"*","left":{"value":"/","left":{"value":"108000"},"right":{"value":"731"}},"right":{"value":"31"}}}};
 	var Data = {
 		"value": "=",
 		"left": {
@@ -137,6 +138,7 @@
 		};
 
 		this.value = function(item) {
+			//console.log(item);
 			if (item.left) {
 				this.value(item.left);
 			}
@@ -151,6 +153,7 @@
 				item.hint.value = this.plain(item);
 				this.hints.push(this.prepareHintText(item.hint));
 			}
+			item.genid = this.genId();
 		    return item;
 		};
 
@@ -179,14 +182,14 @@
 		if (data.hint_after) {
 			this.hints = this.hints.concat(data.hint_after.map(this.prepareHintText));
 		}
-		console.log(this.text);
-		console.log(this.hints);
+		//console.log(this.text);
+		//console.log(this.hints);
 	};
 
 	var app = angular.module('formulaTest', []);
 
 	app.controller('Controller', ['$scope', function($scope) {
-		$scope.formula = new Formula({
+		var f = new Formula({
 			"formula": Data,
 			"header": "Расчитано так:",
 			"hint_before": [
@@ -209,24 +212,64 @@
 		        }
 		    ]
 		});
+		$scope.formula = f;
 		$scope.clean_data = '';
+		$scope.formulaRecompile = false;
 		$scope.calculate = function() {
 			$scope.formula = new Formula({
 				"header": "Расчитано так:",
 				"formula": JSON.parse($scope.clean_data)
 			});
+			$scope.formulaRecompile = true;
 		};
 
 	}]);
 
-	app.directive('formula', function() {
+	app.directive('formula', function($compile, $parse) {
+		var removeAllWatchers = function(element) {
+			if (element.data().hasOwnProperty('$scope')) {
+				element.data().$scope.$$watchers = [];	
+			}
+			removeChildrenWatchers(element);
+		};
+
+		var removeChildrenWatchers = function(element) {
+			angular.forEach(element.children(), function(childElement) {
+				removeAllWatchers(angular.element(childElement));	
+			});	
+		};
+
 		return {
 			restrict: 'E',
 			replace: true,
 			scope: {
 				formula: '='
 			},
-			templateUrl: 'formula.html'
+			templateUrl: 'formula.html',
+		    compile: function(el) {
+		      var template = el.html();
+
+		      return function link(scope, $el, attrs) {
+		        scope.$parent.$watch(attrs.recompile, function(_new, _old) {
+		        	var useBoolean = attrs.hasOwnProperty('useBoolean');
+		        	if ((useBoolean && (!_new || _new === 'false')) || (!useBoolean && (!_new || _new === _old))) {
+		        		return;
+		        	}
+
+		        	// remove all watchers because the recompiled version will set them up again.
+		        	removeChildrenWatchers($el);
+		          
+		        	// reset recompile to false if we're using a boolean
+		        	if (useBoolean) {		          	
+		        		$parse(attrs.recompile).assign(scope.$parent, false);
+		        	}
+
+		        	// recompile
+		        	var newEl = $compile(template)(scope.$parent.$new());
+		        	$el.html('').append(newEl);
+		        });
+		      };
+		    }
 		};
 	});
 
