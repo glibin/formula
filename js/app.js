@@ -112,6 +112,8 @@
 	var app = angular.module('formulaTest', []);
 
 	app.controller('Controller', ['$scope', function($scope) {
+		$scope.clean_data = JSON.stringify(Data, null, 4);
+
 		var f = new Formula({
 			"formula": Data,
 			"header": "Расчитано так:",
@@ -136,7 +138,7 @@
 		    ]
 		});
 		$scope.formula = f;
-		$scope.clean_data = '';
+		
 		$scope.formulaRecompile = false;
 		$scope.calculate = function() {
 			var data = JSON.parse($scope.clean_data);
