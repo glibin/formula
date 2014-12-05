@@ -231,7 +231,7 @@
 	        if (item.left) {
 	            result += this.plain(item.left) + (item.right ? ' ' : '');
 	        }
-	        result += formatOperator(item.value);
+	        result += formulaNumberFormat(formatOperator(item.value));
 	        if (item.right) {
 	            result += (item.left ? ' ' : '') + this.plain(item.right);
 	        }
