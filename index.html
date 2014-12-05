@@ -25,67 +25,69 @@
       }
 
       .formula-header:after {
-        content: '';
-        display: block;
-        width: 100%;
-        height: 1px;
-        background: #e0e0e0;
-        margin-top: 13px;
+          content: '';
+          display: block;
+          width: 100%;
+          height: 1px;
+          background: #e0e0e0;
+          margin-top: 13px;
       }
       .formula-header__text {
-        font-size: 16px;
-        line-height: 22px;
-        margin-bottom: 5px;
+          font-size: 16px;
+          line-height: 22px;
+          margin-bottom: 5px;
       }
 
       .formula-header__formula {
-        line-height: 42px;
-        margin-bottom: 0;
-        font-size: 32px;
-        font-family: 'proxima_novabold',Arial,Tahoma,Verdana,sans-serif;
-        color: #000;
-        word-wrap: break-word;
+          line-height: 42px;
+          margin-bottom: 0;
+          font-size: 32px;
+          font-family: 'proxima_novabold',Arial,Tahoma,Verdana,sans-serif;
+          color: #000;
+          word-wrap: break-word;
       }
 
       .formula-hints {
-        margin-top: 21px;  
-        padding: 0;
+          margin-top: 21px;
+          padding: 0;
       }
 
       .formula-hints__item {
-        list-style: none;
-        margin-bottom: 14px;
-        line-height: 22px;  
+          list-style: none;
+          margin-bottom: 14px;
+          line-height: 22px;
       }
 
       .formula-part {
-        display: inline-block;
+          display: inline-block;
       }
 
       .formula-hint_shine, .formula-part_shine {
-        background-color: #fffdbe;
-        cursor: default;
+          background-color: #fffdbe;
+          cursor: default;
       }
 
       .formula-part_bracket:after {
-          content: ")";        
+          content: ")";
       }
 
       .formula-part_operator > .formula-part__value {
-        padding: 0 5px;
+          padding: 0 5px;
       }
 
       .formula-part_block > .formula-part__value {
-        display: none;
+          display: none;
       }
 
       .formula-part_operator.formula-part_bracket > .formula-part__value,
       .formula-part_operator.formula-part_percent > .formula-part__value {
-        padding: 0;
+          padding: 0;
       }
 
       .formula-hint-text__arg {
-        font-weight: bold;
+          font-weight: bold;
+          font-family: 'proxima_novabold',Arial,Tahoma,Verdana,sans-serif;
+          white-space: nowrap;
       }
 
       .formula-edit {
@@ -112,6 +114,7 @@
   <body>
     <div ng-controller="Controller">
       <div class="formula-edit">
+        <div>Формула или полное выражение</div>
         <textarea class="formula-data-input" data-ng-model="clean_data"></textarea>
         <button ng-click="calculate();" class="formula-calculate">Расчитать</button>
       </div>
