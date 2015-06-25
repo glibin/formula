@@ -543,31 +543,6 @@ angular.module('formula', ['format']);
 		
     	$scope.clean_data = JSON.stringify(Data, null, 4);
 
-		var f = {
-			"formula": Data,
-			"header": "Расчитано так:",
-			"hint_before": [
-		        {
-		            "text": "Начисления за расчетный период ({})",
-		            "args": [
-		                {
-		                    "value": "1000",
-		                    "attrs": {
-		                        "currency": "руб"
-		                    }
-		                }
-		            ]
-		        }
-		    ],
-		    "hint_after": [
-		        {
-		            "value": "01",
-		            "text": "код тарифа плательщика страховых взносов, основной тариф"
-		        }
-		    ]
-		};
-		//$scope.formulaJson = null;
-		
 		$scope.formulaRecompile = false;
 		$scope.calculate = function() {
 			var data = JSON.parse($scope.clean_data);

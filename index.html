@@ -26,14 +26,14 @@
     </style>
   </head>
   <body>
-    <div ng-controller="Controller">
+    <div data-ng-controller="Controller">
       <div class="form-group">
         <label class="form-group__label">Формула или полное выражение</label>
         <textarea class="formula-data-input" data-ng-model="clean_data"></textarea>
       </div>
 
       <div class="form-group">
-        <button ng-click="calculate();" class="button button_size_full">Расчитать</button>
+        <button data-ng-click="calculate();" class="button button_positive button_big button_size_full">Расчитать</button>
       </div>
 
       <formula-fast formula-json="formulaJson"></formula-fast>
