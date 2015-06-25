@@ -1,6 +1,0 @@
-<div class="formula-hint" ng-mouseover="hint.toggle(true, 'all');" ng-mouseout="hint.toggle(false);" ng-class="{'formula-hint_shine' : hint.shine}">
-<span ng-show="hint.value"><strong>
-    <formula-part part="hint"></formula-part>
-</strong> &mdash; </span>
-<span class="formula-hint-text" ng-repeat="part in hint.parts">{{ part.text }}<span class="formula-hint-text__arg" ng-if="part.value">{{part.value | formulaValue }}</span></span>
-</div>
