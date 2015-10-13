@@ -332,6 +332,8 @@ angular.module('formula', ['format']);
                     '/': 'divide',
                     '%': 'percent',
                     '(': 'bracket',
+                    '<': 'lt',
+                    '>': 'gt',
                     '=': 'eq',
                     '': 'block'
                 },
