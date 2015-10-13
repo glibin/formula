@@ -224,25 +224,29 @@ angular.module('formula', ['format']);
                 },
                 render: function () {
                     var $part = this.$part = $('<div class="formula-hint"></div>').appendTo(this.$el);
+                    var type = this.model.get('type') || 'text';
+                    this.$el.addClass('formula-hints__item_' + type);
 
-                    if (this.model.get('value')) {
-                        var $value = $('<strong></strong>').appendTo($part);
-                        $value.append(new Part.View({
-                            model: new Part.Model(this.model.attributes)
-                        }).render());
+                    if (type === 'text') {
+                        if (this.model.get('value')) {
+                            var $value = $('<strong></strong>').appendTo($part);
+                            $value.append(new Part.View({
+                                model: new Part.Model(this.model.attributes)
+                            }).render());
 
-                        $part.append($('<span> &mdash; </span>'));
-                    }
-
-                    _.each(this.model.parts, function (part) {
-                        var $text = $('<span class="formula-hint-text">' + _.escape(part.text) + '</span>')
-                            .appendTo($part);
-                        if (part.value) {
-                            $('<span class="formula-hint-text__arg"></span>')
-                                .append(new Part.View({model: new Part.Model(part.value)}).render())
-                                .appendTo($text);
+                            $part.append($('<span> &mdash; </span>'));
                         }
-                    });
+
+                        _.each(this.model.parts, function (part) {
+                            var $text = $('<span class="formula-hint-text">' + _.escape(part.text) + '</span>')
+                                .appendTo($part);
+                            if (part.value) {
+                                $('<span class="formula-hint-text__arg"></span>')
+                                    .append(new Part.View({model: new Part.Model(part.value)}).render())
+                                    .appendTo($text);
+                            }
+                        });
+                    }
 
                     return this.$el;
                 }
@@ -300,8 +304,16 @@ angular.module('formula', ['format']);
                     if (this.model.get('op')) {
                         this.$el.addClass('formula-part_' + this.model.get('op') + ' formula-part_operator');
                     }
-                    this.$el.html('<span class="formula-part__value">' +
-                        _.escape(formatValue(this.model.attributes)) + '</span>');
+                    var attrs = this.model.attributes.attrs;
+                    if (attrs && attrs.link) {
+                        this.$el.html('<a href="' + _.escape(attrs.link) +
+                            '" target="_blank" class="formula-part__value formula-part__value_link">' +
+                            _.escape(formatValue(this.model.attributes)) + '</a>');
+                    } else {
+                        this.$el.html('<span class="formula-part__value">' +
+                            _.escape(formatValue(this.model.attributes)) + '</span>');
+                    }
+
                     if (this.model.left) {
                         this.$el.prepend(this.model.left.view.render());
                     }
@@ -540,7 +552,7 @@ angular.module('formula', ['format']);
     angular.module('formulaTest', ['formula']);
 
     angular.module('formulaTest').controller('Controller', ['$scope', function($scope) {
-		
+
     	$scope.clean_data = JSON.stringify(Data, null, 4);
 
 		$scope.formulaRecompile = false;
